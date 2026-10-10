@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { TowerDefenseEngine } from './game/engine';
 import { MAPS } from './game/maps';
+import { getWavePreviewSummary } from './game/waveManager';
 import { MapData, Difficulty, TowerId, PlacedTower, TacticalAbility, GameSettings, SpecializationId, TargetingPriority } from './game/types';
 import { soundManager } from './game/audio';
 import { TopHeader } from './components/TopHeader';
@@ -187,6 +188,10 @@ export default function App() {
 
   const isGameOver = engine.status === 'GAME_OVER' || engine.status === 'VICTORY';
 
+  const nextWavePreview = useMemo(() => {
+    return getWavePreviewSummary(engine.currentWave + 1, difficulty);
+  }, [engine.currentWave, difficulty]);
+
   return (
     <div className="flex flex-col w-screen h-screen bg-[#090d16] text-slate-100 overflow-hidden font-sans">
       {/* Top Header strictly compliant with Top Bar Contract */}
@@ -210,6 +215,7 @@ export default function App() {
         isEndless={difficulty === 'endless'}
         wavePhase={engine.wavePhase}
         waveTitle={engine.currentWaveInfo?.title}
+        nextWavePreview={nextWavePreview}
         speedMultiplier={engine.speedMultiplier}
         autoStartNextWave={engine.autoStartNextWave}
         autoStartCountdown={engine.autoStartCountdown}

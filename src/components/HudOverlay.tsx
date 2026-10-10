@@ -1,6 +1,19 @@
 import React from 'react';
-import { Heart, Coins, Trophy, FastForward, Pause, Play, Flame } from 'lucide-react';
+import {
+  Heart,
+  Coins,
+  Trophy,
+  FastForward,
+  Pause,
+  Play,
+  Flame,
+  Skull,
+  ShieldAlert,
+  Zap,
+} from 'lucide-react';
 import { WavePhase } from '../game/engine';
+import { EnemyType } from '../game/types';
+import { ENEMY_DEFINITIONS } from '../game/constants';
 
 interface HudOverlayProps {
   lives: number;
@@ -12,6 +25,7 @@ interface HudOverlayProps {
   isEndless: boolean;
   wavePhase: WavePhase;
   waveTitle?: string;
+  nextWavePreview?: { type: EnemyType; count: number }[];
   speedMultiplier: number;
   autoStartNextWave: boolean;
   autoStartCountdown: number;
@@ -31,6 +45,7 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
   isEndless,
   wavePhase,
   waveTitle,
+  nextWavePreview = [],
   speedMultiplier,
   autoStartNextWave,
   autoStartCountdown,
@@ -52,10 +67,12 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
       ? 'text-amber-400'
       : 'text-rose-400';
 
+  const hasBossNext = nextWavePreview.some((p) => p.type === 'dreadnought');
+
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-3 bg-slate-900/90 border-b border-slate-800 backdrop-blur-sm select-none z-20">
+    <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-2.5 bg-slate-900/90 border-b border-slate-800 backdrop-blur-sm select-none z-20">
       {/* Tactical Resources Block */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-5">
         {/* Base Core Health */}
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400">
@@ -75,7 +92,7 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
           </div>
         </div>
 
-        {/* Tactical Credits */}
+        {/* Tactical Credits with Gold Coins Icon */}
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
             <Coins className="w-4 h-4 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
@@ -106,7 +123,7 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
               {waveTitle && (
                 <>
                   <span className="text-[10px] text-slate-500 font-medium">·</span>
-                  <span className="text-[11px] text-slate-400 max-w-[130px] truncate">
+                  <span className="text-[11px] text-slate-400 max-w-[120px] truncate">
                     {waveTitle}
                   </span>
                 </>
@@ -128,6 +145,53 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Center Tactical Wave Recon / Enemy Preview */}
+      {canStartNext && nextWavePreview.length > 0 && (
+        <div className="hidden xl:flex items-center gap-2 px-3 py-1 bg-slate-950/80 border border-slate-800 rounded-lg text-xs">
+          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+            <Skull className="w-3 h-3 text-rose-400" />
+            <span>Feind-Aufklärung (W{currentWave + 1}):</span>
+          </span>
+
+          <div className="flex items-center gap-1.5">
+            {nextWavePreview.map((item) => {
+              const def = ENEMY_DEFINITIONS[item.type];
+              if (!def) return null;
+              const isBoss = def.isBoss;
+
+              return (
+                <div
+                  key={item.type}
+                  className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-mono tabular-nums border ${
+                    isBoss
+                      ? 'bg-rose-500/20 border-rose-500/50 text-rose-300 font-bold animate-pulse'
+                      : 'bg-slate-900 border-slate-800 text-slate-300'
+                  }`}
+                  title={`${def.name}: ${def.description}`}
+                >
+                  <span
+                    className="w-2 h-2 rounded-full inline-block"
+                    style={{ backgroundColor: def.color }}
+                  />
+                  <span>
+                    {item.count}x {def.name.split(' ')[0]}
+                  </span>
+                  {def.armor > 0 && <span className="text-[9px] text-amber-400">[Rüstung]</span>}
+                  {def.shield > 0 && <span className="text-[9px] text-sky-400">[Schild]</span>}
+                </div>
+              );
+            })}
+          </div>
+
+          {hasBossNext && (
+            <span className="text-[10px] font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1 ml-1 animate-pulse">
+              <ShieldAlert className="w-3 h-3" />
+              <span>Boss-Gefahr!</span>
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Control & Next Wave Actions Block */}
       <div className="flex items-center gap-3 ml-auto">

@@ -137,3 +137,16 @@ export function generateWave(waveNumber: number, numPaths: number, difficulty: D
     title,
   };
 }
+
+export function getWavePreviewSummary(waveNumber: number, difficulty: Difficulty): { type: EnemyType; count: number }[] {
+  const wave = generateWave(waveNumber, 1, difficulty);
+  const counts: Record<string, number> = {};
+  wave.spawns.forEach((s) => {
+    counts[s.type] = (counts[s.type] || 0) + 1;
+  });
+  return Object.entries(counts).map(([type, count]) => ({
+    type: type as EnemyType,
+    count,
+  }));
+}
+
