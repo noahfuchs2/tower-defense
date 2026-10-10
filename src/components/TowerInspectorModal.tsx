@@ -1,7 +1,7 @@
 import React from 'react';
 import { PlacedTower, TargetingPriority, SpecializationId } from '../game/types';
 import { TOWER_DEFINITIONS } from '../game/constants';
-import { X, ArrowUpCircle, Trash2, Crosshair, Award, Zap } from 'lucide-react';
+import { X, ArrowUpCircle, Trash2, Crosshair, Award, Zap, Coins, FastForward, Rewind, Shield, HeartCrack, Wind, LocateFixed } from 'lucide-react';
 
 interface TowerInspectorModalProps {
   tower: PlacedTower;
@@ -94,17 +94,33 @@ export const TowerInspectorModal: React.FC<TowerInspectorModalProps> = ({
         <div className="grid grid-cols-3 gap-1">
           {TARGETING_OPTIONS.map((priority) => {
             const isCurrent = tower.targeting === priority;
+            const icon =
+              priority === 'FIRST' ? (
+                <FastForward className="w-3 h-3" />
+              ) : priority === 'LAST' ? (
+                <Rewind className="w-3 h-3" />
+              ) : priority === 'STRONGEST' ? (
+                <Shield className="w-3 h-3" />
+              ) : priority === 'WEAKEST' ? (
+                <HeartCrack className="w-3 h-3" />
+              ) : priority === 'FASTEST' ? (
+                <Wind className="w-3 h-3" />
+              ) : (
+                <LocateFixed className="w-3 h-3" />
+              );
+
             return (
               <button
                 key={priority}
                 onClick={() => onSetTargeting(tower, priority)}
-                className={`py-1 text-[10px] font-semibold rounded transition-colors cursor-pointer capitalize ${
+                className={`flex items-center justify-center gap-1 py-1 text-[10px] font-semibold rounded transition-colors cursor-pointer capitalize ${
                   isCurrent
                     ? 'bg-sky-500 text-slate-950 font-bold shadow-sm'
                     : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >
-                {priority.toLowerCase()}
+                {icon}
+                <span>{priority.toLowerCase()}</span>
               </button>
             );
           })}
@@ -128,11 +144,12 @@ export const TowerInspectorModal: React.FC<TowerInspectorModalProps> = ({
               <span>Upgrade to Level {tower.level + 1}</span>
             </div>
             <span
-              className={`font-mono font-bold tabular-nums ${
+              className={`inline-flex items-center gap-1 font-mono font-bold tabular-nums ${
                 canAffordUpgrade ? 'text-amber-400' : 'text-slate-500'
               }`}
             >
-              {upgradeCost}g
+              <Coins className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span>{upgradeCost}</span>
             </span>
           </button>
         ) : !tower.specialization ? (
@@ -157,7 +174,10 @@ export const TowerInspectorModal: React.FC<TowerInspectorModalProps> = ({
                   >
                     <div className="flex items-center justify-between text-xs font-bold text-amber-300">
                       <span>{spec.name}</span>
-                      <span className="font-mono tabular-nums">{spec.cost}g</span>
+                      <span className="inline-flex items-center gap-1 font-mono tabular-nums">
+                        <Coins className="w-3 h-3 text-amber-400 shrink-0" />
+                        <span>{spec.cost}</span>
+                      </span>
                     </div>
                     <div className="text-[10px] text-slate-400 mt-1 leading-snug">
                       {spec.description}
@@ -187,7 +207,10 @@ export const TowerInspectorModal: React.FC<TowerInspectorModalProps> = ({
           <Trash2 className="w-3.5 h-3.5" />
           <span>Decommission & Sell</span>
         </div>
-        <span className="font-mono font-bold tabular-nums">+{sellValue}g</span>
+        <span className="inline-flex items-center gap-1 font-mono font-bold tabular-nums">
+          <Coins className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+          <span>+{sellValue}</span>
+        </span>
       </button>
     </div>
   );

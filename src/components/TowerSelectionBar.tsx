@@ -1,7 +1,7 @@
 import React from 'react';
 import { TowerId } from '../game/types';
 import { TOWER_DEFINITIONS } from '../game/constants';
-import { Crosshair, Zap, Wind, Orbit, Radio, ShieldAlert } from 'lucide-react';
+import { Crosshair, Zap, Wind, Orbit, Radio, ShieldAlert, Coins } from 'lucide-react';
 
 interface TowerSelectionBarProps {
   credits: number;
@@ -83,11 +83,12 @@ export const TowerSelectionBar: React.FC<TowerSelectionBarProps> = ({
                 </div>
                 <div className="flex items-center gap-1.5 mt-0.5 text-[11px]">
                   <span
-                    className={`font-mono font-bold tabular-nums ${
+                    className={`inline-flex items-center gap-0.5 font-mono font-bold tabular-nums ${
                       canAfford ? 'text-amber-400' : 'text-rose-400'
                     }`}
                   >
-                    {def.cost}g
+                    <Coins className="w-3 h-3 text-amber-400 shrink-0" />
+                    <span>{def.cost}</span>
                   </span>
                   <span className="text-slate-500">·</span>
                   <span className="text-slate-400 text-[10px] truncate max-w-[65px]">{def.role}</span>

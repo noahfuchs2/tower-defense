@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Map, ShieldCheck, Flame, Infinity as InfinityIcon } from 'lucide-react';
+import { X, Map, ShieldCheck, Flame, Infinity as InfinityIcon, Coins } from 'lucide-react';
 import { MAPS } from '../game/maps';
 import { MapData, Difficulty } from '../game/types';
 
@@ -99,7 +99,11 @@ export const MapSelectModal: React.FC<MapSelectModalProps> = ({
               >
                 <ShieldCheck className="w-4 h-4 mx-auto mb-1 text-emerald-400" />
                 <div className="text-xs font-semibold">Casual</div>
-                <div className="text-[10px] text-slate-500 mt-0.5">30 Lives · 450g</div>
+                <div className="flex items-center justify-center gap-1 text-[10px] text-slate-400 mt-0.5">
+                  <span>30 Lives ·</span>
+                  <Coins className="w-2.5 h-2.5 text-amber-400" />
+                  <span>450</span>
+                </div>
               </button>
 
               <button
@@ -112,7 +116,11 @@ export const MapSelectModal: React.FC<MapSelectModalProps> = ({
               >
                 <Flame className="w-4 h-4 mx-auto mb-1 text-sky-400" />
                 <div className="text-xs font-semibold">Normal</div>
-                <div className="text-[10px] text-slate-500 mt-0.5">20 Lives · 350g</div>
+                <div className="flex items-center justify-center gap-1 text-[10px] text-slate-400 mt-0.5">
+                  <span>20 Lives ·</span>
+                  <Coins className="w-2.5 h-2.5 text-amber-400" />
+                  <span>350</span>
+                </div>
               </button>
 
               <button
@@ -125,7 +133,11 @@ export const MapSelectModal: React.FC<MapSelectModalProps> = ({
               >
                 <Flame className="w-4 h-4 mx-auto mb-1 text-rose-400" />
                 <div className="text-xs font-semibold">Heroic</div>
-                <div className="text-[10px] text-slate-500 mt-0.5">12 Lives · +30% HP</div>
+                <div className="flex items-center justify-center gap-1 text-[10px] text-slate-400 mt-0.5">
+                  <span>12 Lives ·</span>
+                  <Coins className="w-2.5 h-2.5 text-amber-400" />
+                  <span>300</span>
+                </div>
               </button>
 
               <button

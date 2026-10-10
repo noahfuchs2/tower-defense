@@ -454,7 +454,7 @@ export class TowerDefenseEngine {
 
     soundManager.playEnemyDeath();
     this.createExplosionParticles(enemy.x, enemy.y, enemy.color, enemy.isBoss ? 40 : 14);
-    this.addFloatingText(enemy.x, enemy.y - 10, `+${enemy.goldReward}g`, '#38bdf8');
+    this.addFloatingText(enemy.x, enemy.y - 10, `+${enemy.goldReward}`, '#38bdf8');
   }
 
   private updateTowers(dt: number) {
@@ -1047,7 +1047,7 @@ export class TowerDefenseEngine {
 
     soundManager.playSell();
     this.createExplosionParticles(tower.x, tower.y, '#94a3b8', 12);
-    this.addFloatingText(tower.x, tower.y - 10, `+${refund}g REFUND`, '#94a3b8');
+    this.addFloatingText(tower.x, tower.y - 10, `+${refund} REFUND`, '#94a3b8');
 
     return true;
   }

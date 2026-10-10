@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Shield, Crosshair, Skull, Info } from 'lucide-react';
+import { X, Shield, Crosshair, Skull, Info, Coins, Heart, Zap, Wind, Radar, ShieldAlert } from 'lucide-react';
 import { TOWER_DEFINITIONS, ENEMY_DEFINITIONS } from '../game/constants';
 
 interface CodexModalProps {
@@ -93,8 +93,9 @@ export const CodexModal: React.FC<CodexModalProps> = ({ onClose }) => {
                       </div>
                       <div className="text-xs text-sky-400 mt-0.5">{tower.role}</div>
                     </div>
-                    <span className="font-mono text-xs font-bold text-amber-400">
-                      {tower.cost}g
+                    <span className="inline-flex items-center gap-1 font-mono text-xs font-bold text-amber-400">
+                      <Coins className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <span>{tower.cost}</span>
                     </span>
                   </div>
 
@@ -104,15 +105,21 @@ export const CodexModal: React.FC<CodexModalProps> = ({ onClose }) => {
 
                   <div className="grid grid-cols-3 gap-2 py-2 px-3 bg-slate-900/60 rounded-lg text-center text-xs">
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Damage</span>
+                      <span className="text-[10px] text-slate-400 block uppercase flex items-center justify-center gap-1">
+                        <Crosshair className="w-2.5 h-2.5 text-sky-400" /> Damage
+                      </span>
                       <span className="font-mono font-bold text-white">{tower.damage}</span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Rate</span>
+                      <span className="text-[10px] text-slate-400 block uppercase flex items-center justify-center gap-1">
+                        <Zap className="w-2.5 h-2.5 text-amber-400" /> Rate
+                      </span>
                       <span className="font-mono font-bold text-white">{tower.fireRate}/s</span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Range</span>
+                      <span className="text-[10px] text-slate-400 block uppercase flex items-center justify-center gap-1">
+                        <Radar className="w-2.5 h-2.5 text-emerald-400" /> Range
+                      </span>
                       <span className="font-mono font-bold text-white">{tower.range}px</span>
                     </div>
                   </div>
@@ -155,8 +162,9 @@ export const CodexModal: React.FC<CodexModalProps> = ({ onClose }) => {
                         {enemy.isBoss ? 'Elite Dreadnought Boss' : 'Combat Unit'}
                       </div>
                     </div>
-                    <span className="font-mono text-xs font-bold text-amber-400">
-                      +{enemy.goldReward}g Bounty
+                    <span className="inline-flex items-center gap-1 font-mono text-xs font-bold text-amber-400">
+                      <Coins className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <span>+{enemy.goldReward} Bounty</span>
                     </span>
                   </div>
 
@@ -166,17 +174,23 @@ export const CodexModal: React.FC<CodexModalProps> = ({ onClose }) => {
 
                   <div className="grid grid-cols-3 gap-2 py-2 px-3 bg-slate-900/60 rounded-lg text-center text-xs">
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Base HP</span>
+                      <span className="text-[10px] text-slate-400 block uppercase flex items-center justify-center gap-1">
+                        <Heart className="w-2.5 h-2.5 text-rose-400" /> HP
+                      </span>
                       <span className="font-mono font-bold text-rose-400">{enemy.maxHealth}</span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Armor</span>
+                      <span className="text-[10px] text-slate-400 block uppercase flex items-center justify-center gap-1">
+                        <ShieldAlert className="w-2.5 h-2.5 text-amber-400" /> Armor
+                      </span>
                       <span className="font-mono font-bold text-amber-400">
                         {Math.round(enemy.armor * 100)}%
                       </span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Speed</span>
+                      <span className="text-[10px] text-slate-400 block uppercase flex items-center justify-center gap-1">
+                        <Wind className="w-2.5 h-2.5 text-sky-400" /> Speed
+                      </span>
                       <span className="font-mono font-bold text-white">{enemy.speed}px/s</span>
                     </div>
                   </div>

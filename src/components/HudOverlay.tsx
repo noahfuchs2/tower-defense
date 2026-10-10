@@ -78,12 +78,13 @@ export const HudOverlay: React.FC<HudOverlayProps> = ({
         {/* Tactical Credits */}
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-            <Coins className="w-4 h-4" />
+            <Coins className="w-4 h-4 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
           </div>
           <div>
             <div className="text-[11px] text-slate-400 leading-none">Credits</div>
-            <div className="font-mono text-base font-bold tabular-nums text-amber-300 mt-0.5">
-              {credits.toLocaleString()}g
+            <div className="flex items-center gap-1 font-mono text-base font-bold tabular-nums text-amber-300 mt-0.5">
+              <Coins className="w-3.5 h-3.5 text-amber-400 inline shrink-0" />
+              <span>{credits.toLocaleString()}</span>
             </div>
           </div>
         </div>
